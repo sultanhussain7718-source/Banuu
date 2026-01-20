@@ -82,7 +82,6 @@
       z-index: 2;
     }
 
-    /* Floating hearts */
     .floating-heart {
       position: absolute;
       bottom: -50px;
@@ -106,10 +105,9 @@
 </head>
 <body>
 
-<!-- 🎵 Romantic Song (Auto-Play) -->
-<audio id="music" autoplay loop muted>
+<!-- 🎵 Romantic Song -->
+<audio id="music" loop>
   <source src="banu_romantic_audio.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
 </audio>
 
 <div class="container">
@@ -118,7 +116,6 @@
 
   <div class="heart">❤️</div>
 
-  <!-- ⌨ Typing Text -->
   <div id="typing"></div>
 
   <button onclick="showLove()">Click Here, My Love 💌</button>
@@ -130,6 +127,8 @@
 </div>
 
 <script>
+  const music = document.getElementById("music");
+
   // Typing animation
   const message =
     "From the moment you came into my life, everything became more beautiful.\n\n" +
@@ -150,14 +149,19 @@
 
   typeWriter();
 
-  // 🎵 Try to force autoplay after load
+  // 🎵 Try autoplay after load
   window.addEventListener("load", () => {
-    const music = document.getElementById("music");
-    music.muted = false;
     music.play().catch(() => {
-      console.log("Autoplay blocked by browser.");
+      console.log("Autoplay blocked. Waiting for user interaction...");
     });
   });
+
+  // 🎵 Guaranteed fallback: start on first tap anywhere
+  document.addEventListener("click", () => {
+    if (music.paused) {
+      music.play();
+    }
+  }, { once: true });
 
   // 💖 Floating hearts
   function createHeart() {
