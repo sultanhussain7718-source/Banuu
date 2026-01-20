@@ -9,7 +9,10 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', cursive;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+        url("couple.jpeg") no-repeat center center fixed;
+      background-size: cover;
       color: #fff;
       text-align: center;
       overflow: hidden;
@@ -19,8 +22,13 @@
       position: relative;
       top: 50%;
       transform: translateY(-50%);
-      padding: 20px;
+      padding: 25px;
       z-index: 2;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+      max-width: 900px;
+      margin: auto;
     }
 
     h1 {
@@ -74,17 +82,6 @@
       z-index: 2;
     }
 
-    /* 💖 Circular Photo */
-    .photo {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      border: 5px solid #fff;
-      margin: 15px auto;
-      object-fit: cover;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-    }
-
     /* Floating hearts */
     .floating-heart {
       position: absolute;
@@ -92,6 +89,7 @@
       font-size: 24px;
       color: rgba(255,255,255,0.8);
       animation: float 8s linear infinite;
+      z-index: 1;
     }
 
     @keyframes float {
@@ -108,8 +106,8 @@
 </head>
 <body>
 
-<!-- 🎵 Romantic Song -->
-<audio id="music" loop>
+<!-- 🎵 Romantic Song (Auto-Play) -->
+<audio id="music" autoplay loop muted>
   <source src="banu_romantic_audio.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
@@ -118,16 +116,10 @@
   <h1>My Dear Bangarammmmmmm ❤️</h1>
   <h2>I Love You Sooooooooo Muchhhhh, My Bujji 😘</h2>
 
-  <!-- 📸 Circular Photo -->
-  <img src="couple.jpeg" class="photo" alt="Our Love">
-
   <div class="heart">❤️</div>
 
   <!-- ⌨ Typing Text -->
   <div id="typing"></div>
-
-  <!-- 🎵 Music Button -->
-  <button onclick="playMusic()">Play Our Song 🎵</button><br>
 
   <button onclick="showLove()">Click Here, My Love 💌</button>
 </div>
@@ -158,10 +150,14 @@
 
   typeWriter();
 
-  // 🎵 Play music
-  function playMusic() {
-    document.getElementById("music").play();
-  }
+  // 🎵 Try to force autoplay after load
+  window.addEventListener("load", () => {
+    const music = document.getElementById("music");
+    music.muted = false;
+    music.play().catch(() => {
+      console.log("Autoplay blocked by browser.");
+    });
+  });
 
   // 💖 Floating hearts
   function createHeart() {
@@ -192,6 +188,3 @@
 
 </body>
 </html>
-
-
-
